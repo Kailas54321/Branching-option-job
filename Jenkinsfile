@@ -19,7 +19,7 @@ stage('get build branch Parameter User Input') {
 liste = readFile 'branch.txt'
 echo "please click on the link here to chose the branch to build"
 env.BRANCH_SCOPE = input message: 'Please choose the branch to build ', ok: 'Validate!',
-parameters: [choice(name: 'BRANCH_NAME', choices: “${liste}”, description: 'Branch to build?')]
+parameters: [choice(name: 'BRANCH_NAME', choices: "${liste}", description: 'Branch to build?')]
 }
 stage('Checkout external proj') {
 echo "${env.BRANCH_SCOPE}"
