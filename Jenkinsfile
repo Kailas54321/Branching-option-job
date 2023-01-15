@@ -1,7 +1,7 @@
 pipeline {
     agent any 
-     step {
-        stage('code-checkout') { 
+     stage {
+        steps('code-checkout') { 
             echo 'Hello World'
          }
      }
