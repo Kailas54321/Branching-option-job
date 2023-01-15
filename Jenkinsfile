@@ -2,7 +2,9 @@ pipeline {
     agent any 
      stages {
         stage('code-checkout') { 
-          steps {  echo 'Hello World'
+          steps { 
+            sh ‘git branch -r | awk \'{print $1}\’ ORS=\’\\n\’ >branches.txt’
+            
          }
        }
    } 
