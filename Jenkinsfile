@@ -5,7 +5,7 @@ pipeline {
         stage('checkout scm') {
             steps {
                 script {
-                    git credentialsId: 'Kailas54321', url: 'https://github.com/Kailas54321/Branching-option-job.git'
+                    git credentialsId: 'github', url: 'https://github.com/Kailas54321/Branching-option-job.git'
                     sh 'git branch -r | awk \'{print $1}\' ORS=\'\\n\' >>branch.txt'
                 }
             }
@@ -23,7 +23,7 @@ pipeline {
         stage("checkout the branch") {
             steps {
                 echo "${env.BRANCH_SCOPE}"
-                git  credentialsId: 'Kailas54321', url: 'https://github.com/Kailas54321/Branching-option-job.git'
+                git  credentialsId: '', url: 'https://github.com/Kailas54321/Branching-option-job.git'
             }
         }
         // stage("exec maven build") {
