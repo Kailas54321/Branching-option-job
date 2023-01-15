@@ -4,6 +4,6 @@ pipeline {
         stage('code-checkout') { 
           
             sh 'Hello World'
-            
         }
-    }
+      }
+ }
