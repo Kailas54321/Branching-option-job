@@ -20,5 +20,21 @@ pipeline {
                 }
             }
         } 
-    }
-}
+        stage("checkout the branch") {
+            steps {
+                echo "${env.BRANCH_SCOPE}"
+                 git  credentialsId: 'github1' , url: 'https://github.com/Kailas54321/Branching-option-job.git'
+            }
+        }
+        // stage("exec maven build") {
+        //     steps {
+        //         withMaven(maven: 'M3', mavenSettingsConfig: 'mvn-setting-xml') {
+        //            sh "mvn clean install "
+        //         }
+        //     }
+        // }
+        stage("clean workwpace") {
+            steps {
+                cleanWs()
+            }
+        }
