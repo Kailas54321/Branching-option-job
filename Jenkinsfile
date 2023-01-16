@@ -5,7 +5,7 @@ pipeline {
         stage('checkout scm') {
             steps {
                 script {
-                    withCredentials([gitUsernamePassword(credentialsId: 'github1', gitToolName: 'Default')])' , url: 'https://github.com/Kailas54321/Branching-option-job.git'
+                    withCredentials([gitUsernamePassword(credentialsId: 'github1', gitToolName: 'Default')]) , url: 'https://github.com/Kailas54321/Branching-option-job.git'
                     sh 'git branch -r | awk \'{print $1}\' ORS=\'\\n\' >>branch.txt'
                 }
             }
