@@ -1,32 +1,43 @@
-GITHUB_PROJECT = "https://github.com/Kailas54321/Branching-option-job.git"
-GITHUB_CREDENTIALS_ID ="github"
-APPLICATION_NAME = "Branching-option-job"
-GITHUB_BRANCH = '${env.BRANCH_NAME}'
-node{
-// Stages
-stage ("Listing Branches") {
-echo "Initializing workflow"
-//checkout code
-echo GITHUB_PROJECT
-git url: GITHUB_PROJECT, credentialsId: GITHUB_CREDENTIALS_ID
-sh 'git branch -r | awk \'{print $1}\' ORS=\'\\n\' >branches.txt'
-sh 'cut -d '/' -f 2 branches.txt > branch.txt'
-//sh “sed s'/origin”\'///g branches.txt > branch.tx”
-//sed 's/$/from S0 to S1/'
+ pipeline {
+    agent any
+    
+    stages {
+        stage('checkout scm') {
+            steps {
+                script {
+                    git  credentialsId: 'github1' , url: 'https://github.com/Kailas54321/Branching-option-job.git'
+                    sh 'git branch -r | awk \'{print $1}\' ORS=\'\\n\' >>branch.txt'
+                }
+            }
+        }
+        stage('get build Params User Input') {
+            steps{
+                script{
+                    liste = readFile 'branch.txt'
+                    echo "please click on the link here to chose the branch to build"
+                    env.BRANCH_SCOPE = input message: 'Please choose the branch to build', ok: 'Validate!',
+                            parameters: [choice(name: 'BRANCH_NAME', choices: "${liste}", description: 'Branch to build?')]
+                }
+            }
+        } 
+        stage("checkout the branch") {
+            steps {
+                echo "${env.BRANCH_SCOPE}"
+                 git  credentialsId: 'github1' , url: 'https://github.com/Kailas54321/Branching-option-job.git'
+            }
+        }
+        // stage("exec maven build") {
+        //     steps {
+        //         withMaven(maven: 'M3', mavenSettingsConfig: 'mvn-setting-xml') {
+        //            sh "mvn clean install "
+        //         }
+        //     }
+        // }
+        stage("clean workwpace") {
+            steps {
+                cleanWs()
+            }
+        }
+    }
 }
-stage('get build branch Parameter User Input') {
 
-liste = readFile 'branch.txt'
-echo "please click on the link here to chose the branch to build"
-env.BRANCH_SCOPE = input message: 'Please choose the branch to build ', ok: 'Validate!',
-parameters: [choice(name: 'BRANCH_NAME', choices: "${liste}", description: 'Branch to build?')]
-}
-stage('Checkout external proj') {
-echo "${env.BRANCH_SCOPE}"
-git branch: "${env.BRANCH_SCOPE}",
-credentialsId: 'Telcel',
-url: 'https://github.com/Kailas54321/Branching-option-job.git'
-
-sh "ls -lat"
-}
-}
